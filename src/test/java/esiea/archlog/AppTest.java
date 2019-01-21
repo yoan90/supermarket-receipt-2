@@ -7,9 +7,15 @@ import org.assertj.core.api.Assertions;
  */
 public class AppTest
 {
+
     @Test
     public void testApp()
     {
+        /* Hello World Test */
+        String testHelloWorld = "Hello World!";
+        Assertions.assertThat(testHelloWorld).isEqualTo(App.hw);
+
+        /* Default Test */
         Assertions.assertThat(true).isTrue();
     }
 }
