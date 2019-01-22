@@ -25,11 +25,30 @@ public class SupermarketTest {
         Receipt receipt = teller.checksOutArticlesFrom(cart);
 
         assertThat(receipt.getTotalPrice()).as("Price of 2,5kg of apples").isEqualTo(4.975);
-
-
-
-
     }
+    
+    @Test
+    public void testProductEqual() {
+        Product toothbrush = new Product("toothbrush", ProductUnit.Each);
+
+        assertThat(toothbrush.equals(toothbrush)).as("Same Product").isTrue();
+
+        Product apple = null;
+
+        assertThat(toothbrush.equals(apple)).as("Product null").isFalse();
+
+        ShoppingCart cart = new ShoppingCart();
+
+        assertThat(toothbrush.equals(cart)).as("Product is the same type of class").isFalse();
+
+        Product toothbrush2 = new Product("toothbrush", ProductUnit.Each);
+        Product apple2 = new Product("apple", ProductUnit.Kilo);
+
+        assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
+        assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
+    }
+   
+    
     @Test
     public void testDiscountCar() {
 
