@@ -21,8 +21,8 @@ buildNumber.properties
 *.so
 
 #Intellij#
-*.iml
 .idea/
+*.iml
 *.iws
 
 # Packages #
