@@ -22,7 +22,7 @@ buildNumber.properties
 
 #Intellij#
 *.iml
-./idea/
+.idea/
 *.iws
 
 # Packages #
