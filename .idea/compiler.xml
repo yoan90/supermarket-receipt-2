@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="supermarket-receiptV2" target="1.7" />
+      <module name="supermarket-receiptV2" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>
