@@ -47,8 +47,8 @@ public class SupermarketTest {
         assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
         assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
     }
-   
-    
+
+
     @Test
     public void testDiscountCar() {
 
@@ -64,5 +64,63 @@ public class SupermarketTest {
 
         assertThat(receipt.getTotalPrice()).as("Price of discount car").isEqualTo(8000.0);
 
+    }
+
+
+    @Test
+    public void testTwoForAmount() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        ShoppingCart cart = new ShoppingCart();
+        Teller teller = new Teller(catalog);
+
+        Product toothbrush = new Product("toothbrush", ProductUnit.Each);
+
+        catalog.addProduct(toothbrush, 0.99);
+        cart.addItemQuantity(toothbrush, 2);
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, toothbrush, 0.99);
+
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        assertThat(receipt.getTotalPrice()).as("two toothbrushes for :").isEqualTo(0.99);
+    }
+
+
+    @Test
+    public void testThreeForTwo() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        ShoppingCart cart = new ShoppingCart();
+        Teller teller = new Teller(catalog);
+
+        Product toothpaste  = new Product("toothpaste tube", ProductUnit.Each);
+
+        catalog.addProduct(toothpaste, 10);
+        cart.addItemQuantity(toothpaste,2);
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo,toothpaste,2);
+
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+        assertThat(receipt.getTotalPrice()).as("two toothpaste tubes for :").isEqualTo(20);
+
+        cart.addItemQuantity(toothpaste,1);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+        assertThat(receipt.getTotalPrice()).as("three toothpaste tubes for :").isEqualTo(20);
+    }
+
+
+    @Test
+    public void testFiveForAmount() {
+        SupermarketCatalog catalog = new FakeCatalog();
+        ShoppingCart cart = new ShoppingCart();
+        Teller teller = new Teller(catalog);
+
+        Product toothpaste  = new Product("toothpaste tube", ProductUnit.Each);
+
+        catalog.addProduct(toothpaste , 1.79);
+        cart.addItemQuantity(toothpaste , 5);
+        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, toothpaste , 7.49);
+
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+
+        assertThat(receipt.getTotalPrice()).as("five toothpaste tubes for :").isEqualTo(7.49);
     }
 }
