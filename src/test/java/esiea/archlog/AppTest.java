@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions;
 /**
  * Unit test for simple App.
  */
-public class AppTest
+public class    AppTest
 {
     @Test
     public void testApp()

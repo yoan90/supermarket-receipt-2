@@ -6,25 +6,40 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 public class SupermarketTest {
 
     @Test
     public void testSomething() {
         SupermarketCatalog catalog = new FakeCatalog();
         Product toothbrush = new Product("toothbrush", ProductUnit.Each);
-        catalog.addProduct(toothbrush, 0.99);
+        catalog.addProduct(toothbrush, 1);
         Product apples = new Product("apples", ProductUnit.Kilo);
-        catalog.addProduct(apples, 1.99);
+        catalog.addProduct(apples, 2);
+        Product avocados = new Product("avocados", ProductUnit.Each);
+        catalog.addProduct(avocados, 2);
+        Product shampoing = new Product("shampoing", ProductUnit.Each);
+        catalog.addProduct(shampoing, 5);
+        Product croissants = new Product("croissants", ProductUnit.Each);
+        catalog.addProduct(croissants, 0.8);
 
         ShoppingCart cart = new ShoppingCart();
         cart.addItemQuantity(apples, 2.5);
+        cart.addItemQuantity(toothbrush, 20);
+        cart.addItemQuantity(avocados, 3 );
+        cart.addItemQuantity(shampoing, 2 );
+        cart.addItemQuantity(croissants, 10);
 
         Teller teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, toothbrush, 10.0);
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, avocados, 0);
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, shampoing, 5);
+        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, croissants, 0.8);
 
         Receipt receipt = teller.checksOutArticlesFrom(cart);
 
-        assertThat(receipt.getTotalPrice()).as("Price of 2,5kg of apples").isEqualTo(4.975);
+        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).as("2,5 x 2kg of appels + 20 toothbrush at 1€ with 10 percent discount + ThreeForTwo avocados + 10 croissants for price of 2 = 5 + 20 - 2 + 5 + 1.6 + 4 € ").isEqualTo(33.6);
     }
     
     @Test
@@ -122,5 +137,25 @@ public class SupermarketTest {
         Receipt receipt = teller.checksOutArticlesFrom(cart);
 
         assertThat(receipt.getTotalPrice()).as("five toothpaste tubes for :").isEqualTo(7.49);
+    }
+
+    @Test
+    public void testShoppingCart() {
+        ShoppingCart cart = new ShoppingCart();
+        Product apples = new Product("apples", ProductUnit.Kilo);
+        Product bananas = new Product("bananas", ProductUnit.Each);
+
+
+        /* Test d'ajout d'un nouvel item */
+        cart.addItemQuantity(apples, 3);
+
+        /* Test d'ajout de même item */
+        cart.addItemQuantity(apples, 3);
+
+        /* Test d'ajout d'un nouvel item */
+        cart.addItem(bananas);
+
+        assertThat(cart.productQuantities.values().toString()).as("product(s) in the shopping cart : ").isEqualTo("[1.0, 6.0]");
+
     }
 }
