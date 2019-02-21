@@ -3,6 +3,7 @@ package esiea.archlog.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 
+import esiea.archlog.ReceiptPrinter;
 import org.assertj.core.data.Percentage;
 import org.junit.jupiter.api.Test;
 
