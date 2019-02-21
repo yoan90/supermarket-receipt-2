@@ -39,7 +39,7 @@ public class SupermarketTest {
 
         Receipt receipt = teller.checksOutArticlesFrom(cart);
 
-        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).as("2,5 x 2kg of appels + 20 toothbrush at 1€ with 10 percent discount + ThreeForTwo avocados + 10 croissants for price of 2 = 5 + 20 - 2 + 5 + 1.6 + 4 € ").isEqualTo(33.6);
+        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).as("2,5 x 2kg of apples + 20 toothbrush at 1€ with 10 percent discount + ThreeForTwo avocados + 10 croissants for price of 2 = 5 + 20 - 2 + 5 + 1.6 + 4 € ").isEqualTo(33.6);
     }
     
     @Test
@@ -139,6 +139,7 @@ public class SupermarketTest {
         assertThat(receipt.getTotalPrice()).as("five toothpaste tubes for :").isEqualTo(7.49);
     }
 
+    
     @Test
     public void testShoppingCart() {
         ShoppingCart cart = new ShoppingCart();
@@ -157,5 +158,34 @@ public class SupermarketTest {
 
         assertThat(cart.productQuantities.values().toString()).as("product(s) in the shopping cart : ").isEqualTo("[1.0, 6.0]");
 
+    }
+    
+    
+    @Test
+    public void testReceiptPrinter(){
+        SupermarketCatalog catalog = new FakeCatalog();
+        ShoppingCart cart = new ShoppingCart();
+        Teller teller = new Teller(catalog);
+        ReceiptPrinter printer = new ReceiptPrinter();
+
+        Product rice = new Product("rice", ProductUnit.Kilo);
+
+        catalog.addProduct(rice, 3);
+        cart.addItemQuantity(rice,10);
+
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+        assertThat(printer.printReceipt(receipt)).isNotBlank();
+    }
+
+
+    @Test
+    public void testReceiptItem(){
+        Product rice = new Product("rice", ProductUnit.Kilo);
+        ReceiptItem receiptItem = new ReceiptItem(rice,10,3, 30.0);
+
+        assertThat(receiptItem.getPrice()).isEqualTo(3.0);
+        assertThat(receiptItem.getTotalPrice()).isEqualTo(30.0);
+        assertThat(receiptItem.getProduct()).isEqualTo(rice);
+        assertThat(receiptItem.getQuantity()).isEqualTo(10.0);
     }
 }
