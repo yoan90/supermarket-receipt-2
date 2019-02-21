@@ -79,7 +79,9 @@ public class SupermarketTest {
         receipt.addDiscount(discountCar);
 
         assertThat(receipt.getTotalPrice()).as("Price of discount car").isEqualTo(8000.0);
-
+        assertThat(discountCar.getDescription()).isEqualTo("Discount of Car");
+        assertThat(discountCar.getDiscountAmount()).isEqualTo(2000.0);
+        assertThat(discountCar.getProduct()).isEqualTo(car);
     }
 
 
