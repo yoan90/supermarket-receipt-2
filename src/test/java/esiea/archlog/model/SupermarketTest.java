@@ -179,14 +179,31 @@ public class SupermarketTest {
     }
 
 
-    @Test
+     @Test
     public void testReceiptItem(){
         Product rice = new Product("rice", ProductUnit.Kilo);
-        ReceiptItem receiptItem = new ReceiptItem(rice,10,3, 30.0);
+        Product pen = new Product("pen", ProductUnit.Each);
 
-        assertThat(receiptItem.getPrice()).isEqualTo(3.0);
-        assertThat(receiptItem.getTotalPrice()).isEqualTo(30.0);
-        assertThat(receiptItem.getProduct()).isEqualTo(rice);
-        assertThat(receiptItem.getQuantity()).isEqualTo(10.0);
+        ReceiptItem receiptItem_1_1 = new ReceiptItem(rice,10,3, 30.0);
+        ReceiptItem receiptItem_1 = new ReceiptItem(rice,10,3, 30.0);
+        ReceiptItem receiptItem_2 = new ReceiptItem(rice,10,2, 30.0);
+        ReceiptItem receiptItem_3 = new ReceiptItem(rice,10,3, 20.0);
+        ReceiptItem receiptItem_4 = new ReceiptItem(rice,5,3, 30.0);
+        ReceiptItem receiptItem_5 = new ReceiptItem(pen,1,1.5, 1.5);
+
+        assertThat(receiptItem_1.getPrice()).isEqualTo(3.0);
+        assertThat(receiptItem_1.getTotalPrice()).isEqualTo(30.0);
+        assertThat(receiptItem_1.getProduct()).isEqualTo(rice);
+        assertThat(receiptItem_1.getQuantity()).isEqualTo(10.0);
+
+        assertThat(receiptItem_1.hashCode()).as("hash").isEqualTo(receiptItem_1.hashCode());
+        assertThat(receiptItem_1.hashCode()).as("hash").isNotEqualTo(receiptItem_2.hashCode());
+
+        assertThat(receiptItem_1.equals(receiptItem_1)).isNotEqualTo(null);
+        assertThat(receiptItem_1.equals(receiptItem_1_1)).isEqualTo(true);
+        assertThat(receiptItem_1.equals(receiptItem_2)).isEqualTo(false);
+        assertThat(receiptItem_1.equals(receiptItem_3)).isEqualTo(false);
+        assertThat(receiptItem_1.equals(receiptItem_4)).isEqualTo(false);
+        assertThat(receiptItem_1.equals(receiptItem_5)).isEqualTo(false);
     }
 }
