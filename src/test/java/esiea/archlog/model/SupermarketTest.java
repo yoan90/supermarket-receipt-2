@@ -172,9 +172,16 @@ public class SupermarketTest {
         ReceiptPrinter printer = new ReceiptPrinter();
 
         Product rice = new Product("rice", ProductUnit.Kilo);
-
         catalog.addProduct(rice, 3);
         cart.addItemQuantity(rice,10);
+
+        Product pen = new Product("pen", ProductUnit.Each);
+        catalog.addProduct(pen, 2.5);
+        cart.addItemQuantity(pen,1);
+
+        Product apples = new Product("apples", ProductUnit.Kilo);
+        catalog.addProduct(apples, 2);
+        cart.addItemQuantity(apples,2);
 
         Receipt receipt = teller.checksOutArticlesFrom(cart);
         assertThat(printer.printReceipt(receipt)).isNotBlank();
