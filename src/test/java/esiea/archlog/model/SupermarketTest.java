@@ -181,10 +181,16 @@ public class SupermarketTest {
 
         Product apples = new Product("apples", ProductUnit.Kilo);
         catalog.addProduct(apples, 2);
-        cart.addItemQuantity(apples,2);
+        cart.addItemQuantity(apples,3);
 
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, apples, 1);
         Receipt receipt = teller.checksOutArticlesFrom(cart);
         assertThat(printer.printReceipt(receipt)).isNotBlank();
+
+        String string_actual = printer.printReceipt(receipt);
+        String string_expected = "rice"+"                               "+"30.00"+"\n"+"  "+"3.00"+" * "+"10.000"+"\n"+"pen"+"                                 "+"2.50"+"\n"+"apples"+"                              "+"6.00"+"\n"+"  2.00 * 3.000"+"\n"+"3 for 2"+"("+"apples"+")"+"                    "+"-"+"2.00"+"\n"+"\n"+"Total:"+"                             "+"36.50";
+
+        assertThat(string_actual).isEqualTo(string_expected);
     }
 
 
