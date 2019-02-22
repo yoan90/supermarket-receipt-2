@@ -38,8 +38,10 @@ public class SupermarketTest {
         teller.addSpecialOffer(SpecialOfferType.TwoForAmount, shampoing, 5);
         teller.addSpecialOffer(SpecialOfferType.FiveForAmount, croissants, 0.8);
 
-        Receipt receipt = teller.checksOutArticlesFrom(cart);
+        Offer offer = new Offer(SpecialOfferType.FiveForAmount, croissants, 0.8);
 
+        Receipt receipt = teller.checksOutArticlesFrom(cart);
+        assertThat(offer.getProduct()).isEqualTo(croissants);
         assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).as("2,5 x 2kg of apples + 20 toothbrush at 1€ with 10 percent discount + ThreeForTwo avocados + 10 croissants for price of 2 = 5 + 20 - 2 + 5 + 1.6 + 4 € ").isEqualTo(33.6);
     }
     
