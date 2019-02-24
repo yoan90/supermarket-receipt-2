@@ -64,6 +64,7 @@ public class SupermarketTest {
 
         assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
         assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
+        assertThat(toothbrush.getUnit()).isEqualTo(ProductUnit.Each);
     }
 
 
