@@ -217,6 +217,9 @@ public class SupermarketTest {
         assertThat(receiptItem_1.hashCode()).as("hash").isEqualTo(receiptItem_1.hashCode());
         assertThat(receiptItem_1.hashCode()).as("hash").isNotEqualTo(receiptItem_2.hashCode());
 
+        
+        assertThat(receiptItem_1.equals(null)).isFalse();
+        assertThat(receiptItem_1.equals(receiptItem_1)).isEqualTo(true);
         assertThat(receiptItem_1.equals(receiptItem_1)).isNotEqualTo(null);
         assertThat(receiptItem_1.equals(receiptItem_1_1)).isEqualTo(true);
         assertThat(receiptItem_1.equals(receiptItem_2)).isEqualTo(false);
