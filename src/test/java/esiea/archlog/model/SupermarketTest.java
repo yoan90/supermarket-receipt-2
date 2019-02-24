@@ -143,6 +143,12 @@ public class SupermarketTest {
         Receipt receipt = teller.checksOutArticlesFrom(cart);
 
         assertThat(receipt.getTotalPrice()).as("five toothpaste tubes for :").isEqualTo(7.49);
+
+        cart.addItem(toothpaste);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        assertThat(receipt.getTotalPrice()).isEqualTo(9.28);
     }
 
     
