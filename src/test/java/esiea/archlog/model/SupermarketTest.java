@@ -93,14 +93,14 @@ public class SupermarketTest {
 		
 		//Nouveaux tests
 		
-		Assertions.assertThat(toothbrush.equals(null)).isFalse();        
-        Assertions.assertThat(toothbrush.equals(toothbrush_name)).isFalse();
-        Assertions.assertThat(toothbrush.equals(toothbrush)).isTrue();
+		assertThat(toothbrush.equals(null)).isFalse();        
+        assertThat(toothbrush.equals(toothbrush_name)).isFalse();
+        assertThat(toothbrush.equals(toothbrush)).isTrue();
 
-        Assertions.assertThat(toothbrush.equals(apple)).isFalse();
-        Assertions.assertThat(toothbrush.equals(toothbrush2)).isFalse();
-        Assertions.assertThat(toothbrush.equals(toothbrush3)).isFalse();
-		Assertions.assertThat(toothbrush.equals(toothbrush4)).isTrue();
+        assertThat(toothbrush.equals(apple)).isFalse();
+        assertThat(toothbrush.equals(toothbrush2)).isFalse();
+        assertThat(toothbrush.equals(toothbrush3)).isFalse();
+		assertThat(toothbrush.equals(toothbrush4)).isTrue();
 
 
     }
