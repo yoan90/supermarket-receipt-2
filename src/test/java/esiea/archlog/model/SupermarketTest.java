@@ -85,7 +85,7 @@ public class SupermarketTest {
         assertThat(toothbrush.equals(cart)).as("Product is the same type of class").isFalse();
 
 
-        assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
+        assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isFalse();
 		
         assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
 		
