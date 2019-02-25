@@ -47,7 +47,7 @@ public class SupermarketTest {
     
     @Test
     public void testProductEqual() {
-        Product toothbrush = new Product("toothbrush", ProductUnit.Each);
+        /*Product toothbrush = new Product("toothbrush", ProductUnit.Each);
 
         assertThat(toothbrush.equals(toothbrush)).as("Same Product").isTrue();
 
@@ -64,7 +64,45 @@ public class SupermarketTest {
 
         assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
         assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
-        assertThat(toothbrush.getUnit()).isEqualTo(ProductUnit.Each);
+        assertThat(toothbrush.getUnit()).isEqualTo(ProductUnit.Each);*/
+        
+        ShoppingCart cart = new ShoppingCart();
+		String toothbrush_name = "toothbrush";
+		Product toothbrush = new Product(toothbrush_name, ProductUnit.Each);
+        Product toothbrush2 = new Product("toothbrush 2", ProductUnit.Each);
+
+
+        Product toothbrush3 = new Product(toothbrush_name, ProductUnit.Kilo);
+		Product toothbrush4 = new Product(toothbrush_name, ProductUnit.Each);
+        Product apple = null;
+        Product apple2 = new Product("apple", ProductUnit.Kilo);
+		
+        assertThat(toothbrush.equals(toothbrush)).as("Same Product").isTrue();
+
+        assertThat(toothbrush.equals(apple)).as("Product null").isFalse();
+
+
+        assertThat(toothbrush.equals(cart)).as("Product is the same type of class").isFalse();
+
+
+        assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
+		
+        assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
+		
+		assertThat(toothbrush.getUnit()).isEqualTo(ProductUnit.Each);
+		
+		//Nouveaux tests
+		
+		Assertions.assertThat(toothbrush.equals(null)).isFalse();        
+        Assertions.assertThat(toothbrush.equals(toothbrush_name)).isFalse();
+        Assertions.assertThat(toothbrush.equals(toothbrush)).isTrue();
+
+        Assertions.assertThat(toothbrush.equals(apple)).isFalse();
+        Assertions.assertThat(toothbrush.equals(toothbrush2)).isFalse();
+        Assertions.assertThat(toothbrush.equals(toothbrush3)).isFalse();
+		Assertions.assertThat(toothbrush.equals(toothbrush4)).isTrue();
+
+
     }
 
 
