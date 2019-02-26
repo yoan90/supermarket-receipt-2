@@ -17,6 +17,6 @@
 
 ## Travail effectué:
 - [x] TP1: Commencements du projet
-- [ ] TP2: Tests
+- [x] TP2: Tests
 - [ ] TP3: Refactoring
-- [ ] TP4: Web-services et tests
+- [ ] _TP4: Web-services et tests_
