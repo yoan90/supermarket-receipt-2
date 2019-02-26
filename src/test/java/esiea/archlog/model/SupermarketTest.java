@@ -1,7 +1,6 @@
 package esiea.archlog.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import esiea.archlog.ReceiptPrinter;
 import org.junit.jupiter.api.Test;
 
@@ -44,23 +43,44 @@ public class SupermarketTest {
     @Test
     public void testProductEqual() {
         Product toothbrush = new Product("toothbrush", ProductUnit.Each);
+        Product pen = new Product("pen", ProductUnit.Each);
+        Product toothbrush_2 = new Product("toothbrush_2", ProductUnit.Each);
+        Product toothbrush_3 = new Product("toothbrush", ProductUnit.Kilo);
+        Product toothbrush_4 = new Product("toothbrush", ProductUnit.Each);
 
-        assertThat(toothbrush.equals(toothbrush)).as("Same Product").isTrue();
+        assertThat(toothbrush.equals(null)).isFalse();
+        assertThat(toothbrush.equals(toothbrush)).isTrue();
+        assertThat(toothbrush.equals("toothbrush")).isFalse();
+        assertThat(toothbrush.equals(pen)).isFalse();
+        assertThat(toothbrush.equals(toothbrush_2)).isFalse();
+        assertThat(toothbrush.equals(toothbrush_3)).isFalse();
+        assertThat(toothbrush.equals(toothbrush_4)).isTrue();
+    }
 
-        Product apple = null;
 
-        assertThat(toothbrush.equals(apple)).as("Product null").isFalse();
-
+    @Test
+    public void testsSpecialOffers() {
+        SupermarketCatalog catalog = new FakeCatalog();
         ShoppingCart cart = new ShoppingCart();
+        Teller teller = new Teller(catalog);
 
-        assertThat(toothbrush.equals(cart)).as("Product is the same type of class").isFalse();
+        Product rose = new Product("rose", ProductUnit.Each);
+        Product phone = new Product("phone", ProductUnit.Each);
 
-        Product toothbrush2 = new Product("toothbrush", ProductUnit.Each);
-        Product apple2 = new Product("apple", ProductUnit.Kilo);
+        catalog.addProduct(rose, 1.0);
+        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, rose, 7.5);
 
-        assertThat(toothbrush.equals(toothbrush2)).as("Same Unit and name").isTrue();
-        assertThat(toothbrush.equals(apple2)).as("Same Unit and name").isFalse();
-        assertThat(toothbrush.getUnit()).isEqualTo(ProductUnit.Each);
+        cart.addItemQuantity(rose, 3.0);
+        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).isEqualTo(3.0);
+
+        cart.addItemQuantity(rose, 2.0);
+        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).isEqualTo(7.5);
+
+        catalog.addProduct(phone, 1000.0);
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, phone, 4.0);
+
+        cart.addItemQuantity(phone, 1.0);
+        assertThat(teller.checksOutArticlesFrom(cart).getTotalPrice()).isEqualTo(1007.5);
     }
 
 
@@ -154,7 +174,6 @@ public class SupermarketTest {
         Product apples = new Product("apples", ProductUnit.Kilo);
         Product bananas = new Product("bananas", ProductUnit.Each);
 
-
         /* Test d'ajout d'un nouvel item */
         cart.addItemQuantity(apples, 3);
 
@@ -165,7 +184,6 @@ public class SupermarketTest {
         cart.addItem(bananas);
 
         assertThat(cart.productQuantities.values().toString()).isNotNull();
-
     }
     
     
@@ -201,10 +219,9 @@ public class SupermarketTest {
 
     @Test
     public void testReceiptItem(){
-        Product rice_kilo = new Product("rice k", ProductUnit.Kilo);
+        Product rice_kilo = new Product("rice", ProductUnit.Kilo);
         Product pen = new Product("pen", ProductUnit.Kilo);
 
-        ReceiptItem receiptItem_1_1 = new ReceiptItem(rice_kilo,10,3, 30.0);
         ReceiptItem receiptItem_1 = new ReceiptItem(rice_kilo,10,3, 30.0);
         ReceiptItem receiptItem_2 = new ReceiptItem(rice_kilo,10,2, 30.0);
         ReceiptItem receiptItem_3 = new ReceiptItem(rice_kilo,10,3, 20.0);
@@ -219,30 +236,28 @@ public class SupermarketTest {
         assertThat(receiptItem_1.hashCode()).as("hash").isEqualTo(receiptItem_1.hashCode());
         assertThat(receiptItem_1.hashCode()).as("hash").isNotEqualTo(receiptItem_2.hashCode());
 
-        assertThat(receiptItem_1.equals(null)).isFalse();
-        assertThat(receiptItem_1.equals(receiptItem_1)).isEqualTo(true);
-        assertThat(receiptItem_1.equals(receiptItem_1)).isNotEqualTo(null);
-        assertThat(receiptItem_1.equals(receiptItem_1_1)).isEqualTo(true);
         assertThat(receiptItem_1.equals(receiptItem_2)).isEqualTo(false);
         assertThat(receiptItem_1.equals(receiptItem_3)).isEqualTo(false);
         assertThat(receiptItem_1.equals(receiptItem_4)).isEqualTo(false);
         assertThat(receiptItem_1.equals(receiptItem_5)).isEqualTo(false);
     }
+
+
     @Test
     public void testReceiptItemEquals(){
-        Product rice_kilo = new Product("rice k", ProductUnit.Kilo);
-        Product flour = new Product("pen", ProductUnit.Kilo);
+        Product rice = new Product("rice", ProductUnit.Kilo);
+        Product flour = new Product("flour", ProductUnit.Kilo);
 
-        ReceiptItem receiptItem_ = new ReceiptItem(rice_kilo, 2.0, 2.0, 6.0);
+        ReceiptItem receiptItem_ = new ReceiptItem(rice, 2.0, 2.0, 6.0);
         ReceiptItem receiptItem_1_ = new ReceiptItem(flour, 3.0, 1.0, 1.0);
-        ReceiptItem receiptItem_2_ = new ReceiptItem(rice_kilo, 1.0, 2.0, 4.0);
-        ReceiptItem receiptItem_3_ = new ReceiptItem(rice_kilo, 2.0, 3.0, 4.0);
-        ReceiptItem receiptItem_4_ = new ReceiptItem(rice_kilo, 2.0, 2.0, 5.0);
-        ReceiptItem receiptItem_5_ = new ReceiptItem(rice_kilo, 2.0, 2.0, 6.0);
+        ReceiptItem receiptItem_2_ = new ReceiptItem(rice, 1.0, 2.0, 4.0);
+        ReceiptItem receiptItem_3_ = new ReceiptItem(rice, 2.0, 3.0, 4.0);
+        ReceiptItem receiptItem_4_ = new ReceiptItem(rice, 2.0, 2.0, 5.0);
+        ReceiptItem receiptItem_5_ = new ReceiptItem(rice, 2.0, 2.0, 6.0);
         ReceiptItem receiptItem_6_ = new ReceiptItem(flour, 2.0, 2.0, 6.0);
 
         assertThat(receiptItem_).isNotEqualTo(null);
-        assertThat(receiptItem_.equals(rice_kilo)).isEqualTo(false);
+        assertThat(receiptItem_.equals(rice)).isEqualTo(false);
         assertThat(receiptItem_.equals(receiptItem_)).isEqualTo(true);
         assertThat(receiptItem_.equals(receiptItem_1_)).isEqualTo(false);
         assertThat(receiptItem_.equals(receiptItem_2_)).isEqualTo(false);
